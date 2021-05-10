@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /timestamp
+            pathType: Prefix
+            backend:
+              service:
+                name: main-application-svc
+                port:
+                  number: 8484
+          - path: /pingpong
+            pathType: Prefix
+            backend:
+              service:
+                name: ping-pong-app-svc
+                port:
+                  number: 8585

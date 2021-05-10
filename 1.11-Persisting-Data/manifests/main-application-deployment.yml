@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-application-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-application
+  template:
+    metadata:
+      labels:
+        app: main-application
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: app-volume-claim
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: main-application-writer
+          image: mickeckemi21/main-application-writer:1.10
+          env:
+            - name: TIMESTAMP_FILE_PATH
+              value: "/usr/app/files/timestamp.txt"
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/app/files
+        - name: main-application-reader
+          image: mickeckemi21/main-application-reader:1.11
+          env:
+            - name: TIMESTAMP_FILE_PATH
+              value: "/usr/app/files/timestamp.txt"
+            - name: PING_FILE_PATH
+              value: "/usr/app/files/ping.txt"
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/app/files

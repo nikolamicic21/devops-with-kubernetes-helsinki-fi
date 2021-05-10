@@ -1,0 +1,7 @@
+kubectl create -f manifests/main-application-deployment.yml && \
+kubectl create -f manifests/ping-pong-app-deployment.yml && \
+kubectl apply -f manifests/main-application-service.yml && \
+kubectl apply -f manifests/ping-pong-app-service.yml && \
+kubectl apply -f manifests/ingress.yml && \
+kubectl apply -f manifests/persistent-volume.yml && \
+kubectl apply -f manifests/persistent-volume-claim.yml
