@@ -1,0 +1,5 @@
+kubectl create -f manifests/deployment.yml && \
+kubectl apply -f manifests/service.yml && \
+kubectl apply -f manifests/ingress.yml && \
+kubectl apply -f manifests/persistent-volume.yml && \
+kubectl apply -f manifests/persistent-volume-claim.yml
