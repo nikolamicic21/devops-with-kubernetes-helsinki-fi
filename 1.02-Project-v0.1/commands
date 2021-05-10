@@ -1,0 +1,1 @@
+kubectl create deployment exercise-1.02 --image=mickeckemi21/simple-todo-app:1.02
