@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-todo-app-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-todo-app
+  template:
+    metadata:
+      labels:
+        app: simple-todo-app
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: app-volume-claim
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: simple-todo-app
+          image: mickeckemi21/simple-todo-app:1.13
+          env:
+            - name: IMAGE_CACHE_FILE_PATH
+              value: "/usr/app/files/images/"
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/app/files
