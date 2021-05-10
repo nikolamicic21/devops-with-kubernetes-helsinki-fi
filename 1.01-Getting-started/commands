@@ -1,0 +1,1 @@
+kubectl create deployment exercise-1.01 --image=mickeckemi21/main-application:1.01
