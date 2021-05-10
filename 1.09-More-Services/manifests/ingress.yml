@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/rule-type: "PathPrefixStrip"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /pingpong
+            pathType: Prefix
+            backend:
+              service:
+                name: ping-pong-app-svc
+                port:
+                  number: 8686
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-todo-app-svc
+                port:
+                  number: 8787
