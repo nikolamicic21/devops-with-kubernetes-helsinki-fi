@@ -1,0 +1,1 @@
+kubectl apply -f manifests/service.yml && kubectl apply -f manifests/ingress.yml
