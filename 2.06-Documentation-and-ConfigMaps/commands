@@ -1,0 +1,8 @@
+kubectl create namespace main-and-pingpong-apps-namespace
+
+kubectl create -f manifests/main-application-deployment.yml && \
+kubectl create -f manifests/ping-pong-app-deployment.yml && \
+kubectl apply -f manifests/main-application-service.yml && \
+kubectl create -f manifests/main-application-configmap.yml && \
+kubectl apply -f manifests/ping-pong-app-service.yml && \
+kubectl apply -f manifests/ingress.yml

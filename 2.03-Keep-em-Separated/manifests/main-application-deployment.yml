@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: main-and-pingpong-apps-namespace
+  name: main-application-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-application
+  template:
+    metadata:
+      labels:
+        app: main-application
+    spec:
+      containers:
+        - name: main-application
+          image: mickeckemi21/main-application:2.01
+          env:
+            - name: SERVICE_PING_URL
+              value: "http://ping-pong-app-svc:8585"
