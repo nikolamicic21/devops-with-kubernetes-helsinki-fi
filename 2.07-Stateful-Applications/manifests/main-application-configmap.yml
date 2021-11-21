@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: main-and-pingpong-apps-namespace
+  name: main-application-configmap
+data:
+  message: "Hello"
+  

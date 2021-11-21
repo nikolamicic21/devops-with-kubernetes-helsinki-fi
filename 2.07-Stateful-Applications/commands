@@ -1,0 +1,10 @@
+kubectl create namespace main-and-pingpong-apps-namespace
+kubectl create -f manifests/main-application-configmap.yml
+kubectl create -f manifests/postgres-secret.yml
+
+kubectl create -f manifests/main-application-deployment.yml && \
+kubectl create -f manifests/ping-pong-app-deployment.yml && \
+kubectl apply -f manifests/main-application-service.yml && \
+kubectl apply -f manifests/ping-pong-app-service.yml && \
+kubectl apply -f manifests/postgres-statefulset.yml && \
+kubectl apply -f manifests/ingress.yml
