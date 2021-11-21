@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: simple-todo-app-namespace
+  name: simple-daily-todo-job-cronjob
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: simple-daily-todo-job
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: simple-daily-todo-job
+              image: mickeckemi21/simple-daily-todo-job:2.09
+              env:
+                - name: SPRING_DATASOURCE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secret
+                      key: DB_PASSWORD
+                - name: SPRING_DATASOURCE_URL
+                  value: "jdbc:postgresql://postgres-svc:5432/simpletodo"
