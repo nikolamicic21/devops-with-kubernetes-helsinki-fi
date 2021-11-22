@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: main-and-pingpong-apps-namespace
+  name: main-application-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-application
+  template:
+    metadata:
+      labels:
+        app: main-application
+    spec:
+      containers:
+        - name: main-application
+          image: mickeckemi21/main-application:3.02
+          env:
+            - name: SERVICE_PING_URL
+              value: "http://ping-pong-app-svc:8585"
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: main-application-configmap
+                  key: message
+          livenessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080

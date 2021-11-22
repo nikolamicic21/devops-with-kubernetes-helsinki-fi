@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: main-and-pingpong-apps-namespace
+  name: ping-pong-app-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-pong-app
+  template:
+    metadata:
+      labels:
+        app: ping-pong-app
+    spec:
+      containers:
+        - name: ping-pong-app
+          image: mickeckemi21/ping-pong-app:3.02
+          env:
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+          - name: SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://postgres-svc:5432/pingpong"
+          livenessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8089
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8089
