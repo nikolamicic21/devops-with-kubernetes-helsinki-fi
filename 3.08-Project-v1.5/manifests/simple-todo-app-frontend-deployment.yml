@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: simple-todo-app-namespace
+  name: simple-todo-app-frontend-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-todo-app-frontend
+  template:
+    metadata:
+      labels:
+        app: simple-todo-app-frontend
+    spec:
+      containers:
+        - name: simple-todo-app-frontend
+          image: mickeckemi21/simple-todo-app-frontend:2.02
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "15Mi"

@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: simple-todo-app-namespace
+  name: app-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /todos
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-todo-app-backend-svc
+                port:
+                  number: 8282
+          - path: /images
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-todo-app-backend-svc
+                port:
+                  number: 8282
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-todo-app-frontend-svc
+                port:
+                  number: 8484
+          
