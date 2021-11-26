@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  namespace: simple-todo-app-namespace
+  name: restart-rate
+spec:
+  metrics:
+    - name: restart-rate
+      initialDelay: 10m
+      successCondition: result < 0.008
+      provider:
+        prometheus:
+          address: http://kube-prometheus-stack-1637-prometheus.prometheus.svc.cluster.local:9090
+          query: |
+            scalar(sum(rate(container_cpu_usage_seconds_total{image!="",namespace="simple-todo-app-namespace"}[10m])))
+
+
