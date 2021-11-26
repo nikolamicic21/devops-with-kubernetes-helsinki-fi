@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: main-and-pingpong-apps-namespace
+  name: main-application-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: main-application
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
