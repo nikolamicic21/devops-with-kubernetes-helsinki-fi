@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: simple-todo-app-namespace
+  name: simple-todo-app-broadcaster-dep
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: simple-todo-app-broadcaster
+  template:
+    metadata:
+      labels:
+        app: simple-todo-app-broadcaster
+    spec:
+      containers:
+        - name: simple-todo-app-backend
+          image: mickeckemi21/simple-todo-app-broadcaster:4.06
+          env:
+          - name: NATS_SERVER_URL
+            value: "nats://my-nats.default:4222"
+          - name: BOT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: simple-todo-app-broadcaster-secret
+                key: BOT_SECRET

@@ -1,0 +1,14 @@
+# K3D load balancer's port 80 should be exposed to the host's port 8080,
+# so that frontend can access newly created backend via ingress.
+
+kubectl create namespace simple-todo-app-namespace
+kubectl create -f manifests/postgres-secret.yml
+kubectl create -f manifests/simple-todo-app-broadcaster-secret.yml
+
+kubectl create -f manifests/simple-todo-app-backend-deployment.yml && \
+kubectl create -f manifests/simple-todo-app-broadcaster-deployment.yml && \
+kubectl create -f manifests/simple-todo-app-frontend-deployment.yml && \
+kubectl apply -f manifests/simple-todo-app-backend-service.yml && \
+kubectl apply -f manifests/simple-todo-app-frontend-service.yml && \
+kubectl apply -f manifests/postgres-statefulset.yml && \
+kubectl apply -f manifests/ingress.yml

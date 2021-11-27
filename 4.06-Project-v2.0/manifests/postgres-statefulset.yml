@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: simple-todo-app-namespace
+  name: postgres-svc
+  labels:
+    app: postgres
+spec:
+  ports:
+  - name: web
+    port: 5432
+  clusterIP: None
+  selector:
+    app: postgres-app
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: simple-todo-app-namespace
+  name: postgres-ss
+spec:
+  serviceName: postgres-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-app
+  template:
+    metadata:
+      labels:
+        app: postgres-app
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13.0
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+          - name: POSTGRES_DB
+            value: "simpletodo"
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: DB_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 100Mi
