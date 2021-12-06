@@ -1,0 +1,11 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dummysite-controller-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "configmaps"]
+    verbs: ["get", "list", "watch", "delete", "create"]
+  - apiGroups: ["nikolamicic21.io"]
+    resources: ["dummysites"]
+    verbs: ["get", "list", "watch", "create", "delete"]

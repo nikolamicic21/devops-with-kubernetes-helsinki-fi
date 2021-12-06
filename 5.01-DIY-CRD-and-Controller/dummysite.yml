@@ -1,0 +1,7 @@
+apiVersion: nikolamicic21.io/v1
+kind: DummySite
+metadata:
+  name: dummysite
+  namespace: dummysite-namespace
+spec:
+  websiteUrl: https://example.com
