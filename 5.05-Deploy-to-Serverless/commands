@@ -1,0 +1,4 @@
+kubectl apply -f manifests/namespace.yml && \
+kubectl apply -f manifests/postgres-secret.yml && \
+kubectl apply -f manifests/postgres-statefulset.yml && \
+kubectl apply -f manifests/service.yml
